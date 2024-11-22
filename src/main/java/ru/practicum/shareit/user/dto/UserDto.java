@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
-import ru.practicum.shareit.Create;
+import ru.practicum.shareit.validated.Create;
 
 @Data //Lombok, чтобы сгенерировать геттеры и сеттеры для полей
 @Builder //создаёт через билдер произвольный конструктор
