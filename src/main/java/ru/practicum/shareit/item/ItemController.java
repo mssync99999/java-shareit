@@ -3,9 +3,10 @@ package ru.practicum.shareit.item;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.validated.Create;
 import ru.practicum.shareit.item.dto.ItemDto;
-
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -37,8 +38,8 @@ public class ItemController {
     //Просмотр информации о конкретной вещи по её идентификатору.
     // Эндпоинт GET /items/{itemId}. Информацию о вещи может просмотреть любой пользователь.
     @GetMapping("/{itemId}")
-    public ItemDto findById(@PathVariable Long itemId) {
-        return itemServiceImpl.findById(itemId);
+    public ItemDto findById(@PathVariable Long itemId, @RequestHeader("X-Sharer-User-Id") Long userId) {
+        return itemServiceImpl.findById(itemId, userId);
     }
 
     //Просмотр владельцем списка всех его вещей с указанием названия и описания для каждой из них.
@@ -46,6 +47,17 @@ public class ItemController {
     @GetMapping
     public List<ItemDto> findItemsAll(@RequestHeader("X-Sharer-User-Id") Long userId) {
         return itemServiceImpl.findItemsAll(userId);
+    }
+
+    //Комментарий можно добавить по эндпоинту POST /items/{itemId}/comment,
+    //создайте в контроллере метод для него.
+    @PostMapping("/{itemId}/comment")
+    public CommentDto createComment(@Validated({Create.class})
+                                    @RequestHeader("X-Sharer-User-Id") Long userId,
+                                    @PathVariable Long itemId,
+                                    @RequestBody CommentDto commentDto) {
+
+        return itemServiceImpl.createComment(userId, itemId, commentDto);
     }
 
     //Поиск вещи потенциальным арендатором.

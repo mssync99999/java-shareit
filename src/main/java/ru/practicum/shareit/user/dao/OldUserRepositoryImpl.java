@@ -1,5 +1,6 @@
 package ru.practicum.shareit.user.dao;
 
+/*
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.user.model.User;
@@ -58,3 +59,4 @@ public class UserRepositoryImpl implements UserRepository {
         return result;
     }
 }
+*/

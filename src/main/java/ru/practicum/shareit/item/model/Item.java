@@ -1,17 +1,48 @@
 package ru.practicum.shareit.item.model;
 
-import lombok.Builder;
-import lombok.Data;
-import ru.practicum.shareit.request.model.ItemRequest;
+import jakarta.persistence.*;
+import lombok.*;
+import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.user.model.User;
 
-@Data //Lombok, чтобы сгенерировать геттеры и сеттеры для полей
-@Builder //создаёт через билдер произвольный конструктор
+import java.util.List;
+
+
+@Getter
+@Setter
+@ToString
+@Builder
+@Entity
+@Table(name = "items")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Item {
-    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "description", nullable = false)
     private String description;
+
+    @Column(name = "is_available", nullable = false)
     private Boolean available;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
     private User owner;
-    private ItemRequest request;
+
+    @Column(name = "request_id")
+    private Long request;
+
+    @Transient
+    private Booking lastBooking;
+    @Transient
+    private Booking nextBooking;
+    @Transient
+    private List<CommentDto> comments;
+
 }

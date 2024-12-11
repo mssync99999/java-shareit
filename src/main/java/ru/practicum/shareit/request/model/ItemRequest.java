@@ -1,22 +1,29 @@
 package ru.practicum.shareit.request.model;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
-import jakarta.validation.constraints.Size;
-import lombok.Builder;
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.*;
 import ru.practicum.shareit.user.model.User;
 import java.time.LocalDateTime;
 
-@Data //Lombok, чтобы сгенерировать геттеры и сеттеры для полей
-@Builder //создаёт через билдер произвольный конструктор
+@Getter
+@Setter
+@ToString
+@Builder
+@Entity
+@Table(name = "requests")
 public class ItemRequest {
-    @NotNull
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Size(min = 1, message = "Описание ItemRequest должно быть больше 1 символа")
+
+    @Column(name = "description")
     private String description;
-    @NotNull
+
+    @ManyToOne
+    @JoinColumn(name = "requestor_id")
     private User requestor;
-    @PastOrPresent
+
+    @Column(name = "created")
     private LocalDateTime created;
 }
