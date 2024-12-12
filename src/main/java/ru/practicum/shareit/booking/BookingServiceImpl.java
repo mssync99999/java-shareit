@@ -1,5 +1,6 @@
 package ru.practicum.shareit.booking;
 
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.dao.BookingRepository;
@@ -25,12 +26,14 @@ import org.springframework.data.domain.Sort;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class BookingServiceImpl implements BookingService {
     private final ItemRepository itemRepositoryImpl;
     private final BookingRepository bookingRepositoryImpl;
     private final UserServiceImpl userServiceImpl;
 
     @Override
+    @Transactional
     public BookingResponseDto create(Long userId, BookingDto bookingDto) {
         User booker = UserMapper.toUser(userServiceImpl.findById(userId));
 
@@ -50,6 +53,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    @Transactional
     public BookingResponseDto updateApproved(Long bookingId,
                                      Long userId,
                                      Boolean isApproved) {

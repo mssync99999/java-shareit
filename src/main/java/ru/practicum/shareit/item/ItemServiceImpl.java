@@ -2,6 +2,7 @@ package ru.practicum.shareit.item;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.dao.BookingRepository;
 import ru.practicum.shareit.booking.model.Status;
 import ru.practicum.shareit.exception.NotFoundException;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepositoryImpl;
     private final UserRepository userRepositoryImpl;
@@ -30,6 +32,7 @@ public class ItemServiceImpl implements ItemService {
     private final CommentRepository commentRepositoryImpl;
 
     @Override
+    @Transactional
     public ItemDto create(ItemDto itemDto, Long userId) {
         Item item = ItemMapper.toItem(itemDto);
         User user = UserMapper.toUser(userServiceImpl.findById(userId));
@@ -39,6 +42,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public ItemDto update(ItemDto itemDto, Long itemId, Long userId) {
 
         User user = UserMapper.toUser(userServiceImpl.findById(userId));
