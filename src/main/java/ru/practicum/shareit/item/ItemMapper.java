@@ -13,7 +13,11 @@ public class ItemMapper {
                 .name(item.getName())
                 .description(item.getDescription())
                 .available(item.getAvailable())
-                .request(item.getRequest() != null ? item.getRequest() : null)
+                .owner(item.getOwner() != null ? item.getOwner() : null)
+                .request(0L)
+                .lastBooking(item.getLastBooking() != null ? item.getLastBooking() : null)
+                .nextBooking(item.getNextBooking() != null ? item.getNextBooking() : null)
+                .comments(item.getComments() != null ? item.getComments() : null)
                 .build();
     }
 
@@ -23,7 +27,11 @@ public class ItemMapper {
                 .name(itemDto.getName())
                 .description(itemDto.getDescription())
                 .available(itemDto.getAvailable())
-                .request(itemDto.getRequest() != null ? itemDto.getRequest() : null)
+                .owner(itemDto.getOwner() != null ? itemDto.getOwner() : null)
+                .request(0L)
+                .lastBooking(itemDto.getLastBooking() != null ? itemDto.getLastBooking() : null)
+                .nextBooking(itemDto.getNextBooking() != null ? itemDto.getNextBooking() : null)
+                .comments(itemDto.getComments() != null ? itemDto.getComments() : null)
                 .build();
     }
 }

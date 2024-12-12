@@ -32,7 +32,7 @@ public class UserController {
 
     @GetMapping
     public List<UserDto> findUsersAll(@RequestHeader("X-Sharer-User-Id") Long userId) {
-        return userServiceImpl.findUsersAll(userId);
+        return userServiceImpl.findUsersAll();
     }
 
     @DeleteMapping("/{userId}")

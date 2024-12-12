@@ -7,8 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import ru.practicum.shareit.validated.Create;
 
-@Data //Lombok, чтобы сгенерировать геттеры и сеттеры для полей
-@Builder //создаёт через билдер произвольный конструктор
+@Data
+@Builder
 public class UserDto {
     @NotNull
     private Long id;

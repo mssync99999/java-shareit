@@ -1,12 +1,24 @@
 package ru.practicum.shareit.user.model;
 
-import lombok.Builder;
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.*;
 
-@Data //Lombok, чтобы сгенерировать геттеры и сеттеры для полей
-@Builder //создаёт через билдер произвольный конструктор
+@Getter
+@Setter
+@ToString
+@Builder
+@Entity
+@Table(name = "users")
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name", nullable = false, length = 256)
     private String name;
+
+    @Column(name = "email", nullable = false, length = 512, unique = true)
     private String email;
 }

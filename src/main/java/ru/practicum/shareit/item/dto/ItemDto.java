@@ -3,9 +3,10 @@ package ru.practicum.shareit.item.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.validated.Create;
-import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.model.User;
+import java.util.List;
 
 @Data //Lombok, чтобы сгенерировать геттеры и сеттеры для полей
 @Builder //создаёт через билдер произвольный конструктор
@@ -18,8 +19,9 @@ public class ItemDto {
     private String description;
     @NotNull(groups = {Create.class})
     private Boolean available;
-    @NotNull
     private User owner;
-    @NotNull
-    private ItemRequest request;
+    private Long request;
+    private Booking lastBooking;
+    private Booking nextBooking;
+    private List<CommentDto> comments;
 }
