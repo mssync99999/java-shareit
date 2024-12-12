@@ -114,6 +114,7 @@ public class ItemServiceImpl implements ItemService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public CommentDto createComment(Long userId,
                                     Long itemId,
                                     CommentDto commentDto) {
