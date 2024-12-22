@@ -11,6 +11,7 @@ import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.request.dto.ItemRequestResponseDto;
 import ru.practicum.shareit.request.dto.ItemShortDto;
+import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.model.User;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -60,10 +61,20 @@ public class RequestControllerTest {
             .created(LocalDateTime.of(2024, 1, 2, 3, 4, 5))
             .items(List.of(itemShortDto))
             .build();
+    private ItemRequest itemRequest = ItemRequest.builder()
+            .id(1L)
+            .description("description")
+            .created(LocalDateTime.of(2024, 1, 2, 3, 4, 5))
+            .items(List.of(itemShortDto))
+            .build();
 
     @Test
     void createTest() throws Exception {
+        ItemRequest temp = ItemRequestMapper.toItemRequest(itemRequestDto, user);
+        ItemRequestMapper.toItemRequestResponseDto(itemRequest);
+
         when(itemRequestServiceImpl.create(anyLong(), any(ItemRequestDto.class))).thenReturn(itemRequestResponseDto);
+
 
         mvc.perform(post("/requests")
                         .header("X-Sharer-User-Id", 1)
