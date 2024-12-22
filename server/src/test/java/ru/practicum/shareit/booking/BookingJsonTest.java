@@ -49,7 +49,7 @@ public class BookingJsonTest {
 
 
     @Test
-    void BookingDtoTest() throws Exception {
+    void bookingDtoTest() throws Exception {
 
         JsonContent<BookingDto> result = this.json.write(this.bookingDto);
 

@@ -50,7 +50,7 @@ public class ItemJsonTest {
             .build();
 
     @Test
-    void ItemDtoTest() throws Exception {
+    void itemDtoTest() throws Exception {
 
         JsonContent<ItemDto> result = this.json.write(this.itemDto);
 
