@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
             throw new NotFoundException("Пользователь не найден");
         }
 
-        User userTemp = UserMapper.toUser(this.findById(userId)); //unit.get(userId);
+        User userTemp = UserMapper.toUser(this.findById(userId));
 
         if (user.getName() != null) {
             userTemp.setName(user.getName());
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
             userTemp.setEmail(user.getEmail());
         }
 
-        return UserMapper.toUserDto(userRepositoryImpl.save(userTemp)); //save
+        return UserMapper.toUserDto(userRepositoryImpl.save(userTemp));
     }
 
     @Override

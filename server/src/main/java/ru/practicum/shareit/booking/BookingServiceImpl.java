@@ -1,7 +1,5 @@
 package ru.practicum.shareit.booking;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,8 +27,6 @@ import org.springframework.data.domain.Sort;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-//@AllArgsConstructor
-//@NoArgsConstructor
 public class BookingServiceImpl implements BookingService {
     private final ItemRepository itemRepositoryImpl;
     private final BookingRepository bookingRepositoryImpl;
