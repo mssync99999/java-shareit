@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.dao.BookingRepository;
 import ru.practicum.shareit.booking.model.Status;
 import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.exception.ValidationException;
+import ru.practicum.shareit.exception.BusinessException;
 import ru.practicum.shareit.item.dao.CommentRepository;
 import ru.practicum.shareit.item.dao.ItemRepository;
 import ru.practicum.shareit.item.dto.CommentDto;
@@ -135,7 +135,7 @@ public class ItemServiceImpl implements ItemService {
 
         if (bookingRepositoryImpl.findAllByBookerAndEndIsBeforeAndItemAndStatusEquals(user, LocalDateTime.now(),
                 item, Status.APPROVED).isEmpty()) {
-            throw new ValidationException("Пользователь должен оформить бронирование");
+            throw new BusinessException("Пользователь должен оформить бронирование");
         }
 
         comment.setItem(item);

@@ -8,10 +8,14 @@ import org.springframework.boot.test.json.JsonContent;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.model.Status;
 import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.model.Comment;
+import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.UserMapper;
 import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,6 +24,30 @@ public class ItemJsonTest {
     @Autowired
     private JacksonTester<ItemDto> json;
 
+    private User user = User.builder()
+            .id(1L)
+            .name("userName")
+            .email("user@mail.ru")
+            .build();
+    private User author = User.builder()
+            .id(3L)
+            .name("authorName")
+            .email("author@mail.ru")
+            .build();
+    private Item item = Item.builder()
+            .id(1L)
+            .name("name")
+            .description("description")
+            .available(true)
+            .owner(user)
+            .build();
+    private Comment comment = Comment.builder()
+            .id(1L)
+            .text("name")
+            .item(item)
+            .author(author)
+            .created(LocalDateTime.of(2024, 1, 2, 3, 4, 5))
+            .build();
     private UserDto ownerDto = UserDto.builder()
             .id(1L)
             .name("name")
@@ -39,6 +67,7 @@ public class ItemJsonTest {
             .requestId(1L)
             .lastBooking(null)
             .nextBooking(null)
+            .comments(List.of(CommentMapper.toCommentDto(comment)))
             .build();
     private BookingDto bookingDto = BookingDto.builder()
             .id(1L)

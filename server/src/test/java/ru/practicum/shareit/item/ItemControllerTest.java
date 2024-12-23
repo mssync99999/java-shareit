@@ -197,7 +197,7 @@ public class ItemControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(commentDto.getId()), Long.class))
-                .andExpect(jsonPath("$.text", is(commentDto.getText())))
+                .andExpect(jsonPath("$.text", is(CommentMapper.toComment(commentDto).getText())))
                 .andExpect(jsonPath("$.authorName", is(commentDto.getAuthorName())))
                 .andExpect(jsonPath("$.created", is(String.valueOf(commentDto.getCreated()))));
     }

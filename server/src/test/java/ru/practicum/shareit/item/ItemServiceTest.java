@@ -12,9 +12,12 @@ import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.Status;
 import ru.practicum.shareit.item.dao.CommentRepository;
 import ru.practicum.shareit.item.dao.ItemRepository;
+import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.request.dao.ItemRequestRepository;
+import ru.practicum.shareit.request.dto.ItemShortDto;
 import ru.practicum.shareit.user.UserMapper;
 import ru.practicum.shareit.user.UserServiceImpl;
 import ru.practicum.shareit.user.dao.UserRepository;
@@ -61,7 +64,6 @@ public class ItemServiceTest {
             .email("booker@mail.ru")
             .build();
     private UserDto bookerDto = UserMapper.toUserDto(booker);
-
     private Item item = Item.builder()
             .name("item")
             .description("description")
@@ -71,6 +73,16 @@ public class ItemServiceTest {
             .build();
     private ItemDto itemDto = ItemMapper.toItemDto(item);
 
+    private Comment comment = Comment.builder()
+            .id(1L)
+            .text("name")
+            .item(item)
+            .author(null)
+            .created(LocalDateTime.of(2024, 1, 2, 3, 4, 5))
+            .build();
+    private CommentDto commentDto = CommentMapper.toCommentDto(comment);
+
+    private ItemShortDto itemShortDto = ItemMapper.toItemShortDto(item);
     private Booking booking = Booking.builder()
             .id(1L)
             .start(LocalDateTime.now().minusDays(1))
@@ -87,8 +99,12 @@ public class ItemServiceTest {
 
     @Test
     void createTest() {
+        item.setComments(List.of(commentDto));
+
+
         when(itemRepositoryImpl.save(any())).thenReturn(item);
         when(userServiceImpl.findById(anyLong())).thenReturn(bookerDto);
+
 
         ItemDto response = itemServiceImpl.create(itemDto, 1L);
         assertThat(1L, equalTo(response.getId()));

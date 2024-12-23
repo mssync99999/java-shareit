@@ -8,6 +8,9 @@ import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.validated.Create;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/items")
 @RequiredArgsConstructor
@@ -66,6 +69,10 @@ public class ItemController {
     // Проверьте, что поиск возвращает только доступные для аренды вещи.
     @GetMapping("/search")
     public ResponseEntity<Object> searchByText(@RequestParam String text) {
+        if (text == null || text.isBlank() || text.isEmpty()) {
+            List<ItemDto> res = new ArrayList<>();
+            return ResponseEntity.ok(res);
+        }
         return itemClient.searchByText(text);
     }
 }

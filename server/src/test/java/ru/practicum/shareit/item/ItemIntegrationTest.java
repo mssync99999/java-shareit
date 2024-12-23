@@ -8,11 +8,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.BookingServiceImpl;
 import ru.practicum.shareit.booking.dao.BookingRepository;
+import ru.practicum.shareit.booking.dto.BookingDto;
+import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.booking.model.Status;
 import ru.practicum.shareit.item.dao.ItemRepository;
+import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.user.UserMapper;
 import ru.practicum.shareit.user.dao.UserRepository;
 import ru.practicum.shareit.user.model.User;
+
+import java.time.LocalDateTime;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -34,6 +43,7 @@ public class ItemIntegrationTest {
     private User owner;
     private Item item;
     private User booker;
+    private Booking booking;
 
     @BeforeEach
     void start() {
@@ -54,6 +64,16 @@ public class ItemIntegrationTest {
                 .name("otherName")
                 .email("other@mail.ru")
                 .build());
+
+        booking = bookingRepository.save(Booking.builder()
+                .id(1L)
+                .start(LocalDateTime.of(2024, 1, 2, 3, 4, 5))
+                .end(LocalDateTime.of(2024, 2, 3, 4, 5, 6))
+                .booker(booker)
+                .item(item)
+                .status(Status.APPROVED)
+                .build());
+
     }
 
     @Test
@@ -61,4 +81,6 @@ public class ItemIntegrationTest {
         ItemDto itemTest = itemServiceImpl.findById(item.getId(), 1L);
         assertThat(item.getId(), equalTo(itemTest.getId()));
     }
+
+
 }

@@ -11,8 +11,8 @@ import ru.practicum.shareit.booking.model.State;
 import ru.practicum.shareit.booking.model.Status;
 import ru.practicum.shareit.exception.BadStateException;
 import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.exception.UserWrongException;
-import ru.practicum.shareit.exception.ValidationException;
+import ru.practicum.shareit.exception.AccessWrongException;
+import ru.practicum.shareit.exception.BusinessException;
 import ru.practicum.shareit.item.dao.ItemRepository;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.UserMapper;
@@ -45,7 +45,7 @@ public class BookingServiceImpl implements BookingService {
         Item item = itemRepositoryImpl.findById(bookingDto.getItemId()).orElseThrow(() -> new NotFoundException("Item не найден"));
 
         if (!item.getAvailable()) {
-            throw new ValidationException("Item забронирована");
+            throw new BusinessException("Item забронирована");
         }
         Booking booking = BookingMapper.toBooking(bookingDto, item, booker);
 
@@ -60,11 +60,11 @@ public class BookingServiceImpl implements BookingService {
         Booking booking = this.findByIdWithoutDto(bookingId);
 
         if (!booking.getItem().getOwner().getId().equals(userId)) {
-            throw new UserWrongException("Пользователь не владелец вещи");
+            throw new AccessWrongException("Пользователь не владелец вещи");
         }
 
         if (!booking.getStatus().equals(Status.WAITING)) {
-            throw new ValidationException("Статус уже установлен");
+            throw new BusinessException("Статус уже установлен");
         }
 
         if (isApproved) {

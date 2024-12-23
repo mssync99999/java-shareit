@@ -12,7 +12,11 @@ import ru.practicum.shareit.booking.dto.BookingResponseDto;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.State;
 import ru.practicum.shareit.booking.model.Status;
+import ru.practicum.shareit.item.CommentMapper;
+import ru.practicum.shareit.item.ItemServiceImpl;
 import ru.practicum.shareit.item.dao.ItemRepository;
+import ru.practicum.shareit.item.dto.CommentDto;
+import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.UserMapper;
 import ru.practicum.shareit.user.UserServiceImpl;
@@ -41,6 +45,8 @@ public class BookingServiceTest {
     private UserServiceImpl userServiceImpl;
     @InjectMocks
     private BookingServiceImpl bookingServiceImpl;
+    @Mock
+    private ItemServiceImpl itemServiceImpl;
 
     private User owner = User.builder()
             .id(1L)
@@ -53,12 +59,23 @@ public class BookingServiceTest {
             .email("booker@mail.ru")
             .build();
     private UserDto bookerDto = UserMapper.toUserDto(booker);
+
+    private Comment comment = Comment.builder()
+            .id(1L)
+            .text("comment")
+            .item(new Item())
+            .author(null)
+            .created(LocalDateTime.of(2024, 1, 2, 3, 4, 5))
+            .build();
+    private CommentDto commentDto = CommentMapper.toCommentDto(comment);
+
     private Item item = Item.builder()
             .name("item")
             .description("description")
             .available(true)
             .owner(owner)
             .id(1L)
+            .comments(List.of(commentDto))
             .build();
     private Booking booking = Booking.builder()
             .id(1L)
@@ -125,4 +142,19 @@ public class BookingServiceTest {
         verify(bookingRepository, times(1)).findAllByBookerId(booker.getId(), sort);
     }
 
+
+    @Test
+    void createCommentTest() {
+        //Sort sort = Sort.by(Sort.Direction.DESC, "start");
+        //List<Booking> bookings = List.of(booking);
+
+        //when(userRepository.findById(any())).thenReturn(null);
+        //when(itemRepository.findById(any())).thenReturn(null);
+        //when(bookingRepository.findAllByBookerAndEndIsBeforeAndItemAndStatusEquals(any(), any(), any(), any())).thenReturn(null);
+        when(itemServiceImpl.createComment(anyLong(), anyLong(), any(CommentDto.class))).thenReturn(commentDto);
+
+        CommentDto response = itemServiceImpl.createComment(1L, 1L, commentDto);
+
+        assertThat(response.getId(), equalTo(commentDto.getId()));
+    }
 }
